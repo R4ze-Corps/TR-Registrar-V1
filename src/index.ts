@@ -1,12 +1,20 @@
-import { env } from "#env";
-import { bootstrap } from "@constatic/base";
-import { GatewayIntentBits } from "discord.js";
+import 'dotenv/config';
+import { Client, GatewayIntentBits } from 'discord.js';
+import { bootstrap } from '#base';
+import registrarCmd from './discord/commands/public/registrar.js';
+import configurarCmd from './discord/commands/public/configurar.js';
+import responderModal from './discord/responders/modalRegistro.js';
+import responderAbrir from './discord/responders/abrirRegistro.js';
+import responderAprovar from './discord/responders/aprovar.js';
+import responderReprovar from './discord/responders/reprovar.js';
 
-await bootstrap({
-    meta: import.meta,
-    env,
-    intents: [
-        GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMembers
-    ]
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+  ]
 });
+
+bootstrap(client, [registrarCmd, configurarCmd], [responderModal, responderAbrir, responderAprovar, responderReprovar]);
+
+client.login(process.env.DISCORD_TOKEN);
