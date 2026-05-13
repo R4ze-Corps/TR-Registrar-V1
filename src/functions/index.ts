@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -15,6 +15,10 @@ interface ConfigData {
 }
 
 function load(): ConfigData {
+  if (!existsSync(configPath)) {
+    console.log(`[Config] Arquivo não encontrado em: ${configPath}`);
+    return { canalRegistro: '', cargos: { registrar: '', aprovado: '', aprovado2: '' } };
+  }
   return JSON.parse(readFileSync(configPath, 'utf-8'));
 }
 

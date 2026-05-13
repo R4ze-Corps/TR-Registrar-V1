@@ -9,19 +9,39 @@ import responderAprovar from './discord/responders/aprovar.js';
 import responderReprovar from './discord/responders/reprovar.js';
 
 process.on('unhandledRejection', (reason) => {
-  console.error('[UNHANDLED_REJECTION]', reason);
+  console.log('[UNHANDLED_REJECTION]', reason);
 });
 process.on('uncaughtException', (err) => {
-  console.error('[UNCAUGHT_EXCEPTION]', err);
+  console.log('[UNCAUGHT_EXCEPTION]', err);
 });
 
-const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMembers,
-  ]
-});
+async function main() {
+  console.log('[STARTUP] Iniciando bot...');
 
-bootstrap(client, [registrarCmd, configurarCmd], [responderModal, responderAbrir, responderAprovar, responderReprovar]);
+  if (!process.env.DISCORD_TOKEN) {
+    console.log('[STARTUP] DISCORD_TOKEN não definido!');
+    return;
+  }
+  if (!process.env.GUILD_ID) {
+    console.log('[STARTUP] GUILD_ID não definido!');
+    return;
+  }
 
-client.login(process.env.DISCORD_TOKEN);
+  const client = new Client({
+    intents: [
+      GatewayIntentBits.Guilds,
+      GatewayIntentBits.GuildMembers,
+    ]
+  });
+
+  bootstrap(client, [registrarCmd, configurarCmd], [responderModal, responderAbrir, responderAprovar, responderReprovar]);
+
+  try {
+    await client.login(process.env.DISCORD_TOKEN);
+    console.log('[STARTUP] Login realizado com sucesso');
+  } catch (err) {
+    console.log('[STARTUP] Erro ao fazer login:', err);
+  }
+}
+
+main().catch((err) => console.log('[STARTUP] Erro fatal:', err));
