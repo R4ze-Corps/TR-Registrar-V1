@@ -14,8 +14,8 @@ export default new Command({
   async run(interaction: any) {
     try {
       const container = createContainer(
-        '#000000',
-        'Clique no botão abaixo para iniciar seu registro.',
+        '#FF0000',
+        '**Bem-vindo ao Sistema de Registro**\nPara fazer sua liberação, precisamos de algumas informações suas.\n\nPor favor, clique no botão abaixo para abrir o formulário e preencher o seu **Nome, ID** e **Telefone.**',
         new ButtonBuilder()
           .setCustomId('btn-abrir-registro')
           .setLabel('📃 Registrar')
