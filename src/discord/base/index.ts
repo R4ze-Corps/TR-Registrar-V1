@@ -91,7 +91,7 @@ export function bootstrap(
     }
   });
 
-  client.once('ready', async () => {
+  client.once('clientReady', async () => {
     console.log(`[Bot] Logado como ${client.user?.tag}`);
     await registerCommands(client, commands);
   });
