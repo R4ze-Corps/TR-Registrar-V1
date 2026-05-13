@@ -8,6 +8,13 @@ import responderAbrir from './discord/responders/abrirRegistro.js';
 import responderAprovar from './discord/responders/aprovar.js';
 import responderReprovar from './discord/responders/reprovar.js';
 
+process.on('unhandledRejection', (reason) => {
+  console.error('[UNHANDLED_REJECTION]', reason);
+});
+process.on('uncaughtException', (err) => {
+  console.error('[UNCAUGHT_EXCEPTION]', err);
+});
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
